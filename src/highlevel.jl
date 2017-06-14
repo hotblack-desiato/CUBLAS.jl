@@ -136,6 +136,8 @@ A_mul_Bt!(C::CudaMatrix, A::CudaMatrix, B::CudaMatrix) = gemm_wrapper!(C, 'N', '
 At_mul_Bt!(C::CudaMatrix, A::CudaMatrix, B::CudaMatrix) = gemm_wrapper!(C, 'T', 'T', A, B)
 Ac_mul_B!{T<:CublasReal}(C::CudaMatrix{T}, A::CudaMatrix{T}, B::CudaMatrix{T}) = At_mul_B!(C, A, B)
 Ac_mul_B!(C::CudaMatrix, A::CudaMatrix, B::CudaMatrix) = gemm_wrapper!(C, 'C', 'N', A, B)
+A_mul_Bc!{T<:CublasReal}(C::CudaMatrix{T}, A::CudaMatrix{T}, B::CudaMatrix{T}) = A_mul_Bt!(C, A, B)
+A_mul_Bc!(C::CudaMatrix, A::CudaMatrix, B::CudaMatrix) = gemm_wrapper!(C, 'N', 'C', A, B)
 
 function A_mul_B!{T}(C::CudaMatrix{T}, A::CudaVecOrMat{T}, B::CudaVecOrMat{T})
     gemm_wrapper!(C, 'N', 'N', A, B)

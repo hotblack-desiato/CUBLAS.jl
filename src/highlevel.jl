@@ -132,6 +132,7 @@ end
 # Mutating
 A_mul_B!{T <: CublasFloat}(C::CudaMatrix{T}, A::CudaMatrix{T}, B::CudaMatrix{T}) = gemm_wrapper!(C, 'N', 'N', A, B)
 At_mul_B!(C::CudaMatrix, A::CudaMatrix, B::CudaMatrix) = gemm_wrapper!(C, 'T', 'N', A, B)
+A_mul_Bt!(C::CudaMatrix, A::CudaMatrix, B::CudaMatrix) = gemm_wrapper!(C, 'N', 'T', A, B)
 At_mul_Bt!(C::CudaMatrix, A::CudaMatrix, B::CudaMatrix) = gemm_wrapper!(C, 'T', 'T', A, B)
 Ac_mul_B!{T<:CublasReal}(C::CudaMatrix{T}, A::CudaMatrix{T}, B::CudaMatrix{T}) = At_mul_B!(C, A, B)
 Ac_mul_B!(C::CudaMatrix, A::CudaMatrix, B::CudaMatrix) = gemm_wrapper!(C, 'C', 'N', A, B)

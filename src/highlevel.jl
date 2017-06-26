@@ -155,7 +155,7 @@ function A_mul_Bt{T}(A::CudaMatrix{T}, B::CudaMatrix{T})
 end
 
 function A_mul_Bc{T}(A::CudaMatrix{T}, B::CudaMatrix{T})
-    A_mul_Bc!(similar(B, T,(size(A,1),size(B,1))),A, B)
+    A_mul_Bc!(similar(B, T,(size(A,1),size(B,1))), A, B)
 end
 
 # At_mul_Bx
@@ -180,4 +180,9 @@ function Ac_mul_Bc{T,S}(A::CudaMatrix{T}, B::CudaMatrix{S})
     Ac_mul_Bc!(similar(B, T, (size(A,2), size(B,1))), A, B)
 end
 
+########################
+# pointwise operations
+########################
 
+(.*){T <: CublasFloat}(A::CudaMatrix{T}, D::CudaVector{T}) = CUBLAS.dgmm('R', A, D)
+(.*){T <: CublasFloat}(D::CudaVector{T}, A::CudaMatrix{T}) = CUBLAS.dgmm('L', A, D)

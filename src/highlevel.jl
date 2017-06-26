@@ -1,4 +1,5 @@
 import Base.Operators.(*)
+import Base.Operators.(.*)
 
 import Base: scale!, scale, norm, vecdot
 

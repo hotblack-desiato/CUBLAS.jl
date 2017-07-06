@@ -2,7 +2,7 @@ import Base.Operators.(*)
 import Base.Operators.(+)
 import Base.Operators.(.*)
 
-import Base: scale!, scale, norm, vecdot, sum
+import Base: scale!, scale, norm, vecdot, sum, diag
 
 import Base: A_mul_B!, At_mul_B,  Ac_mul_B,  A_mul_Bt,  A_mul_Bc,  At_mul_Bt,  Ac_mul_Bc,  At_mul_Bt,
                        At_mul_B!, Ac_mul_B!, A_mul_Bt!, A_mul_Bc!, At_mul_Bt!, Ac_mul_Bc!, At_mul_Bt!

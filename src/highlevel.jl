@@ -2,7 +2,7 @@ import Base.Operators.(*)
 import Base.Operators.(+)
 import Base.Operators.(.*)
 
-import Base: scale!, scale, norm, vecdot
+import Base: scale!, scale, norm, vecdot, sum
 
 import Base: A_mul_B!, At_mul_B,  Ac_mul_B,  A_mul_Bt,  A_mul_Bc,  At_mul_Bt,  Ac_mul_Bc,  At_mul_Bt,
                        At_mul_B!, Ac_mul_B!, A_mul_Bt!, A_mul_Bc!, At_mul_Bt!, Ac_mul_Bc!, At_mul_Bt!
@@ -200,7 +200,7 @@ end
 #####################
 # sum in dimensions
 #####################
-function sum{T <: CublasFloat}(A::CudaMatrix{T}, dim::Int64 = 1)
+function sum{T <: CublasFloat}(A::CudaMatrix{T}, dim::Int64)
     if dim == 1
         return CudaArray(ones(1,size(A,1))) * A
     elseif dim == 2

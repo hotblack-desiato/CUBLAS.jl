@@ -1,4 +1,5 @@
 import Base.Operators.(*)
+import Base.Operators.(+)
 import Base.Operators.(.*)
 
 import Base: scale!, scale, norm, vecdot
@@ -50,6 +51,12 @@ vecdot{T<:CublasComplex}(x::CudaVector{T}, y::CudaVector{T}) = dotc(x, y)
 # NRM2
 #######
 norm(x::CudaArray) = nrm2(x)
+
+#######
+# Addition (general for arrays of any dim)
+#######
+
+(+){T <: CublasFloat}(A::CudaArray{T}, B::CudaArray{T}) = CUBLAS.axpy!(1.0, A, copy(B))
 
 ############
 #
@@ -189,3 +196,16 @@ end
 
 (.*){T <: CublasFloat}(A::CudaMatrix{T}, D::CudaVector{T}) = CUBLAS.dgmm('R', A, D)
 (.*){T <: CublasFloat}(D::CudaVector{T}, A::CudaMatrix{T}) = CUBLAS.dgmm('L', A, D)
+
+#####################
+# sum in dimensions
+#####################
+function sum{T <: CublasFloat}(A::CudaMatrix, dim::Int64 = 1)
+    if dim == 1
+        return CudaArray(ones(1,size(A,1))) * A
+    elseif dim == 2
+        return A * CudaArray(ones(size(A,2), 1))
+    else
+        throw(ArgumentError("sum method currently only for 2D matrices"))
+    end
+end

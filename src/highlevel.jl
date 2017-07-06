@@ -221,13 +221,13 @@ function diag{T <: CublasFloat}(A::CudaMatrix{T})
     if n < 0 #TODO adjust this
         return CudaArray(diag(to_host(A))) 
     else
-        res = CudaArray(zeros(n))
+        res = zeros(n)
         for i in 1:n
             p = zeros(n)
             p[i] = 1.0
             d_p = CudaArray(p)
-            res += (d_p.*A).*d_p'
+            res[i] = CUBLAS.dot(A'*d_p, d_p)
         end
-        return res
+        return CudaArray(res)
     end
 end

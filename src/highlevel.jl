@@ -200,7 +200,7 @@ end
 #####################
 # sum in dimensions
 #####################
-function sum{T <: CublasFloat}(A::CudaMatrix, dim::Int64 = 1)
+function sum{T <: CublasFloat}(A::CudaMatrix{T}, dim::Int64 = 1)
     if dim == 1
         return CudaArray(ones(1,size(A,1))) * A
     elseif dim == 2

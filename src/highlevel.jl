@@ -3,8 +3,8 @@ import Base.Operators.(.*)
 
 import Base: scale!, scale, norm, vecdot
 
-import Base: A_mul_B!, At_mul_B,  Ac_mul_B,  A_mul_Bc,  At_mul_Bt,  Ac_mul_Bc,  At_mul_Bt,
-                       At_mul_B!, Ac_mul_B!, A_mul_Bc!, At_mul_Bt!, Ac_mul_Bc!, At_mul_Bt!
+import Base: A_mul_B!, At_mul_B,  Ac_mul_B,  A_mul_Bt,  A_mul_Bc,  At_mul_Bt,  Ac_mul_Bc,  At_mul_Bt,
+                       At_mul_B!, Ac_mul_B!, A_mul_Bt!, A_mul_Bc!, At_mul_Bt!, Ac_mul_Bc!, At_mul_Bt!
 
 cublas_size(t::Char, M::CudaVecOrMat) = (size(M, t=='N' ? 1:2), size(M, t=='N' ? 2:1))
 
@@ -40,6 +40,9 @@ At_mul_B{T<:CublasReal}(x::CudaVector{T}, y::CudaVector{T}) = [CUBLAS.dot(x, y)]
 At_mul_B{T<:CublasComplex}(x::CudaVector{T}, y::CudaVector{T}) = [CUBLAS.dotu(x, y)]
 Ac_mul_B{T<:CublasComplex}(x::CudaVector{T}, y::CudaVector{T}) = [CUBLAS.dotc(x, y)]
 
+A_mul_Bt{T}(x::CudaVector{T}, y::CudaVector{T}) = A_mul_Bt(reinterpret(T, x, (length(x),1)), reinterpret(T, y, (length(y), 1)))
+A_mul_Bc{T}(x::CudaVector{T}, y::CudaVector{T}) = A_mul_Bc(reinterpret(T, x, (length(x),1)), reinterpret(T, y, (length(y), 1)))
+
 vecdot{T<:CublasReal}(x::CudaVector{T}, y::CudaVector{T}) = dot(x, y)
 vecdot{T<:CublasComplex}(x::CudaVector{T}, y::CudaVector{T}) = dotc(x, y)
 
@@ -47,7 +50,6 @@ vecdot{T<:CublasComplex}(x::CudaVector{T}, y::CudaVector{T}) = dotc(x, y)
 # NRM2
 #######
 norm(x::CudaArray) = nrm2(x)
-
 
 ############
 #

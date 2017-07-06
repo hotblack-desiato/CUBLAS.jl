@@ -194,7 +194,7 @@ end
 # pointwise operations
 ########################
 
-(.*){T <: CublasFloat}(A::CudaMatrix{T}, D::CudaVector{T}) = CUBLAS.dgmm('R', A, D)
+(.*){T <: CublasFloat}(A::CudaMatrix{T}, D::CudaVector{T}) = CUBLAS.dgmm('L', A, D)
 (.*){T <: CublasFloat}(D::CudaVector{T}, A::CudaMatrix{T}) = CUBLAS.dgmm('L', A, D)
 
 #####################

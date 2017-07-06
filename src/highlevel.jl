@@ -209,3 +209,25 @@ function sum{T <: CublasFloat}(A::CudaMatrix{T}, dim::Int64)
         throw(ArgumentError("sum method currently only for 2D matrices"))
     end
 end
+
+#####################
+# diagonalization
+#####################
+function diag{T <: CublasFloat}(A::CudaMatrix{T})
+    (n,m) = size(A)
+    if n != m
+        throw(ArgumentError("diag() only allowed for square matrices"))
+    end
+    if n < 0 #TODO adjust this
+        return CudaArray(diag(to_host(A))) 
+    else
+        res = CudaArray(zeros(n))
+        for i in 1:n
+            p = zeros(n)
+            p[i] = 1.0
+            d_p = CudaArray(p)
+            res += (d_p.*A).*d_p'
+        end
+        return res
+    end
+end
